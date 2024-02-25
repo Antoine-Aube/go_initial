@@ -5,8 +5,11 @@ import "fmt"
 
 func main() {
 	var conferenceName = "Go Conference"
+	const conferenceTickets = 50
+	var remainingTickets = 50
 													//string interpolation
-	fmt.Println("Welcome to", conferenceName, "booking application")
+	fmt.Printf("Welcome to %v booking application\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are avaiable.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 
 	
