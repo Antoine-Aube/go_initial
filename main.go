@@ -21,7 +21,11 @@ func main() {
 
 	//arr syntax - need to assign number of elements in order to make it an array. 
 	// var bookings []string
-	
+
+	//Can also use conditionals after the for loop declarations like a while loop in ruby
+	// for remainingTickets > 0 && len(bookings) < 50 {
+
+
 	for {
 
 		var firstName string
@@ -42,8 +46,13 @@ func main() {
 		
 		fmt.Println("Enter number of tickets")
 		fmt.Scan(&userTickets)
+
+		isValidName := len(firstName) >= 2 && len(lastName) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := userTickets > 0 && userTickets < remainingTickets
+
 		
-		if userTickets < remainingTickets {
+		if isValidName && isValidEmail && isValidTicketNumber {
 
 			remainingTickets = remainingTickets - userTickets
 
@@ -78,7 +87,17 @@ func main() {
 				break 
 			}
 		} else {
-			fmt.Printf("we only have %v tickets remaining so you can't book %v tickets\n", remainingTickets, userTickets)
+			if !isValidName {
+				fmt.Println("first name or last name you entered is too short")
+			}
+
+			if !isValidEmail {
+				fmt.Println("Invalid email")
+			}
+
+			if !isValidTicketNumber {
+				fmt.Println("Number of tickets is invalid")
+			}
 			//key word continue says to keep going with the rest of hte program rather than exiting
 		}
 	}
