@@ -2,14 +2,20 @@
 package main
 //need to declare the execution point - need to give the go compiler a starting point
 import ("fmt"
-				"strconv"
 				"booking-app/helper"
 			)
 
 const conferenceTickets int = 50
 var conferenceName string = "Go Conference"
 var remainingTickets uint = 50
-var bookings = make([]map[string]string, 0)
+var bookings = make([]UserData, 0)
+
+type UserData struct {
+	firstName string
+	lastName string
+	email string 
+	numberOftickets uint
+}
 
 func main() {
 
@@ -82,7 +88,7 @@ func getFirstNames() []string {
 				//fields key word from the string package that we import above
 				// the below was used when we didn't use maps aka hash/object
 				// var names = strings.Fields(booking)
-				firstNames = append(firstNames, booking["firstName"])
+				firstNames = append(firstNames, booking.firstName)
 			}
 			// fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
@@ -118,16 +124,23 @@ func bookTicket(userTickets uint, firstName string, lastName string, email strin
 
 			//create a map for a user - similar to a hash
 			//define the types for the key value pairs
-			var userData = make(map[string]string)
-			userData["firstName"] = firstName
-			userData["lastName"] = lastName
-			userData["email"] = email
-			userData[""] = firstName
-			userData["numberOftickets"] = strconv.FormatUint(uint64(userTickets), 10)
+			var userData = UserData {
+				firstName: firstName,
+				lastName: lastName,
+				email: email,
+				numberOftickets: userTickets,
+			}
+
+			//previously used for a map
+			// userData["firstName"] = firstName
+			// userData["lastName"] = lastName
+			// userData["email"] = email
+			// userData[""] = firstName
+			// userData["numberOftickets"] = strconv.FormatUint(uint64(userTickets), 10) // conversion for uint into a string
 
 			bookings = append(bookings, userData)
 			fmt.Printf("List of bookings is %v\n", bookings)
-			
+
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 		
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
