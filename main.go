@@ -2,14 +2,14 @@
 package main
 //need to declare the execution point - need to give the go compiler a starting point
 import ("fmt"
-				"strings"
+				"strconv"
 				"booking-app/helper"
 			)
 
 const conferenceTickets int = 50
 var conferenceName string = "Go Conference"
 var remainingTickets uint = 50
-var bookings = []string{}
+var bookings = make([]map[string]string, 0)
 
 func main() {
 
@@ -80,9 +80,9 @@ func getFirstNames() []string {
 			//the blank identifier is a space holder for the index, since we are not using hte index within the loop
 			for _, booking := range bookings {
 				//fields key word from the string package that we import above
-
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
+				// the below was used when we didn't use maps aka hash/object
+				// var names = strings.Fields(booking)
+				firstNames = append(firstNames, booking["firstName"])
 			}
 			// fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
@@ -116,7 +116,16 @@ func getUserInput() (string, string, string, uint) {
 func bookTicket(userTickets uint, firstName string, lastName string, email string) {
 			remainingTickets = remainingTickets - userTickets
 
-			bookings = append(bookings, firstName + " " + lastName)
+			//create a map for a user - similar to a hash
+			//define the types for the key value pairs
+			var userData = make(map[string]string)
+			userData["firstName"] = firstName
+			userData["lastName"] = lastName
+			userData["email"] = email
+			userData[""] = firstName
+			userData["numberOftickets"] = strconv.FormatUint(uint64(userTickets), 10)
+
+			bookings = append(bookings, userData)
 			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 		
 			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
