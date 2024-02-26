@@ -15,7 +15,7 @@ func main() {
 
 	//define array length, element types, and then can prepopulate with elements of just empty
 	// var bookings = [50]string{}
-	var bookings [50]string
+	bookings := []string{}
 	
 	var firstName string
 	var lastName string
@@ -38,13 +38,15 @@ func main() {
 
 	remainingTickets = remainingTickets - userTickets
 	
-	bookings[52] = firstName + " " + lastName
+	//slice syntax using the append method - built into go - 
+	bookings = append(bookings, firstName + " " + lastName)
 	
-	fmt.Printf("The whole arrar: %v\n", bookings)
+	fmt.Printf("The whole slice: %v\n", bookings)
 	fmt.Printf("The first value: %v\n", bookings[0])
 	fmt.Printf("Array type: %T\n", bookings)
 	fmt.Printf("Array Length: %v\n", len(bookings))
 	fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 
 	fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+	fmt.Printf("These are all our bookings: %v\n", bookings)
 }
