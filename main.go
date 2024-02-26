@@ -32,7 +32,7 @@ func main() {
 
 		firstName, lastName, email, userTickets := getUserInput()
 
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 		
 		if isValidName && isValidEmail && isValidTicketNumber {
 
@@ -41,10 +41,8 @@ func main() {
 			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
-			//using a conditional to see if tickets have run out
-			//can save a bool into a variable, haven't done this in other languages before
-
 			var noTicketsRemaining bool = remainingTickets == 0
+
 			if noTicketsRemaining {
 
 				fmt.Println("Our conference is booked out please come back next year")
@@ -75,7 +73,6 @@ func greetUsers() {
 	
 }
 
-//input and output parameter
 func getFirstNames() []string {
 	firstNames := []string{}
 
@@ -90,15 +87,6 @@ func getFirstNames() []string {
 
 			// can also just return the value - but HAVE to define the value type you are returning
 			return firstNames
-}
-
-func validateUserInput (first string, last string, email string, tickets uint)(bool, bool, bool) {
-		isValidName := len(first) >= 2 && len(last) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := tickets > 0 && tickets < remainingTickets
-
-		return isValidName, isValidEmail, isValidTicketNumber
-
 }
 
 func getUserInput() (string, string, string, uint) {
