@@ -9,15 +9,16 @@ func main() {
 	conferenceName := "Go Conference"
 	const conferenceTickets int = 50
 	var remainingTickets uint = 50
+	bookings := []string{}
+
+	greetUsers(conferenceName, conferenceTickets, remainingTickets)
 	
 	fmt.Printf("conferenceTickets is a %T, remainingTickets is %T, confenrenceName is %T\n",conferenceTickets, remainingTickets, conferenceName)//string interpolation
-	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("We have a total of %v tickets and %v are avaiable.\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 
 	//define array length, element types, and then can prepopulate with elements of just empty
 	// var bookings = [50]string{}
-	bookings := []string{}
 
 	//arr syntax - need to assign number of elements in order to make it an array. 
 	// var bookings []string
@@ -101,5 +102,12 @@ func main() {
 			//key word continue says to keep going with the rest of hte program rather than exiting
 		}
 	}
+	
+}
+
+func greetUsers(name string, tickets int, remaining uint) {
+	fmt.Printf("Welcome to %v booking application  \n\n", name)
+	fmt.Printf("We have a total of %v tickets and %v are avaiable.\n", conferenceTickets, remainingTickets)
+	fmt.Println("Get your tickets here to attend")
 	
 }
