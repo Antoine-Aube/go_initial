@@ -1,7 +1,9 @@
 //go mod init booking-app
 package main
 //need to declare the execution point - need to give the go compiler a starting point
-import "fmt"
+import ("fmt"
+				"strings"
+			)
 
 func main() {
 	conferenceName := "Go Conference"
@@ -53,7 +55,16 @@ func main() {
 		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
 	
 		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-		fmt.Printf("These are all our bookings: %v\n", bookings)
+
+		firstNames := []string{}
+
+		//the blank identifier is a space holder for the index, since we are not using hte index within the loop
+		for _, booking := range bookings {
+			//fields key word from the string package
+			var names = strings.Fields(booking)
+			firstNames = append(firstNames, names[0])
+		}
+		fmt.Printf("The first names of bookings are: %v\n", firstNames)
 	}
 	
 }
