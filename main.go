@@ -4,6 +4,7 @@ package main
 import ("fmt"
 				"booking-app/helper"
 				"time"
+				"sync"
 			)
 
 const conferenceTickets int = 50
@@ -18,6 +19,7 @@ type UserData struct {
 	numberOftickets uint
 }
 
+var wg = sync.WaitGroup{}
 func main() {
 
 	greetUsers()
@@ -36,7 +38,7 @@ func main() {
 	// for remainingTickets > 0 && len(bookings) < 50 {
 
 
-	for {
+	// for {
 
 		firstName, lastName, email, userTickets := getUserInput()
 
@@ -44,7 +46,10 @@ func main() {
 		
 		if isValidName && isValidEmail && isValidTicketNumber {
 
+
 			bookTicket(userTickets, firstName, lastName, email)
+			//waitgroup function
+			wg.Add(1)
 			go sendTicket(userTickets, firstName, lastName, email)
 
 			firstNames := getFirstNames()
@@ -55,7 +60,7 @@ func main() {
 			if noTicketsRemaining {
 
 				fmt.Println("Our conference is booked out please come back next year")
-				break 
+				// break 
 			}
 		} else {
 			if !isValidName {
@@ -71,9 +76,10 @@ func main() {
 			}
 			//key word continue says to keep going with the rest of hte program rather than exiting
 		}
+		wg.Wait()
 	}
 	
-}
+// }
 
 func greetUsers() {
 	fmt.Printf("Welcome to %v booking application  \n\n", conferenceName)
@@ -154,4 +160,5 @@ func sendTicket(userTickets uint, firstName string, lastName string, email strin
 	fmt.Println("#############")
 	fmt.Printf("Sending ticket:\n %v to email address %v\n", ticket, email)
 	fmt.Println("#############")
+	wg.Done()
 }
