@@ -5,13 +5,14 @@ import ("fmt"
 				"strings"
 			)
 
-func main() {
-	conferenceName := "Go Conference"
-	const conferenceTickets int = 50
-	var remainingTickets uint = 50
-	bookings := []string{}
+const conferenceTickets int = 50
+var conferenceName string = "Go Conference"
+var remainingTickets uint = 50
+var bookings = []string{}
 
-	greetUsers(conferenceName, conferenceTickets, remainingTickets)
+func main() {
+
+	greetUsers()
 	
 	fmt.Printf("conferenceTickets is a %T, remainingTickets is %T, confenrenceName is %T\n",conferenceTickets, remainingTickets, conferenceName)//string interpolation
 	fmt.Printf("We have a total of %v tickets and %v are avaiable.\n", conferenceTickets, remainingTickets)
@@ -29,53 +30,15 @@ func main() {
 
 	for {
 
-		var firstName string
-		var lastName string
-		var email string
-		var userTickets uint
-		//user input scan from the fmt library
-		//using pointers - values are stored in memories on your computer - when you reference that value using the variable name
-		// in needs to know that memory address - pointer is a "special variable"
-		fmt.Println("Enter your first name")
-		fmt.Scan(&firstName)
-		
-		fmt.Println("Enter your last name")
-		fmt.Scan(&lastName)
-		
-		fmt.Println("Enter your email address")
-		fmt.Scan(&email)
-		
-		fmt.Println("Enter number of tickets")
-		fmt.Scan(&userTickets)
+		firstName, lastName, email, userTickets := getUserInput()
 
-		isValidName := len(firstName) >= 2 && len(lastName) >= 2
-		isValidEmail := strings.Contains(email, "@")
-		isValidTicketNumber := userTickets > 0 && userTickets < remainingTickets
-
+		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
 		
 		if isValidName && isValidEmail && isValidTicketNumber {
 
-			remainingTickets = remainingTickets - userTickets
+			bookTicket(userTickets, firstName, lastName, email)
 
-			bookings = append(bookings, firstName + " " + lastName)
-		
-			fmt.Printf("The whole slice: %v\n", bookings)
-			fmt.Printf("The first value: %v\n", bookings[0])
-			fmt.Printf("Array type: %T\n", bookings)
-			fmt.Printf("Array Length: %v\n", len(bookings))
-			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-		
-			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
-
-			firstNames := []string{}
-
-			//the blank identifier is a space holder for the index, since we are not using hte index within the loop
-			for _, booking := range bookings {
-				//fields key word from the string package that we import above
-
-				var names = strings.Fields(booking)
-				firstNames = append(firstNames, names[0])
-			}
+			firstNames := getFirstNames()
 			fmt.Printf("The first names of bookings are: %v\n", firstNames)
 
 			//using a conditional to see if tickets have run out
@@ -105,9 +68,67 @@ func main() {
 	
 }
 
-func greetUsers(name string, tickets int, remaining uint) {
-	fmt.Printf("Welcome to %v booking application  \n\n", name)
-	fmt.Printf("We have a total of %v tickets and %v are avaiable.\n", conferenceTickets, remainingTickets)
+func greetUsers() {
+	fmt.Printf("Welcome to %v booking application  \n\n", conferenceName)
+	fmt.Printf("We have a total of %v tickets and %v are available.\n\n", conferenceTickets, remainingTickets)
 	fmt.Println("Get your tickets here to attend")
 	
+}
+
+//input and output parameter
+func getFirstNames() []string {
+	firstNames := []string{}
+
+			//the blank identifier is a space holder for the index, since we are not using hte index within the loop
+			for _, booking := range bookings {
+				//fields key word from the string package that we import above
+
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+			// fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
+			// can also just return the value - but HAVE to define the value type you are returning
+			return firstNames
+}
+
+func validateUserInput (first string, last string, email string, tickets uint)(bool, bool, bool) {
+		isValidName := len(first) >= 2 && len(last) >= 2
+		isValidEmail := strings.Contains(email, "@")
+		isValidTicketNumber := tickets > 0 && tickets < remainingTickets
+
+		return isValidName, isValidEmail, isValidTicketNumber
+
+}
+
+func getUserInput() (string, string, string, uint) {
+		var firstName string
+		var lastName string
+		var email string
+		var userTickets uint
+		//user input scan from the fmt library
+		//using pointers - values are stored in memories on your computer - when you reference that value using the variable name
+		// in needs to know that memory address - pointer is a "special variable"
+		fmt.Println("Enter your first name")
+		fmt.Scan(&firstName)
+		
+		fmt.Println("Enter your last name")
+		fmt.Scan(&lastName)
+		
+		fmt.Println("Enter your email address")
+		fmt.Scan(&email)
+		
+		fmt.Println("Enter number of tickets")
+		fmt.Scan(&userTickets)
+
+		return firstName, lastName, email, userTickets
+}
+
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
+			remainingTickets = remainingTickets - userTickets
+
+			bookings = append(bookings, firstName + " " + lastName)
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+		
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 }
