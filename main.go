@@ -42,29 +42,45 @@ func main() {
 		
 		fmt.Println("Enter number of tickets")
 		fmt.Scan(&userTickets)
-	
-		remainingTickets = remainingTickets - userTickets
 		
-		//slice syntax using the append method - built into go - 
-		bookings = append(bookings, firstName + " " + lastName)
+		if userTickets < remainingTickets {
+
+			remainingTickets = remainingTickets - userTickets
+
+			bookings = append(bookings, firstName + " " + lastName)
 		
-		fmt.Printf("The whole slice: %v\n", bookings)
-		fmt.Printf("The first value: %v\n", bookings[0])
-		fmt.Printf("Array type: %T\n", bookings)
-		fmt.Printf("Array Length: %v\n", len(bookings))
-		fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
-	
-		fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
+			fmt.Printf("The whole slice: %v\n", bookings)
+			fmt.Printf("The first value: %v\n", bookings[0])
+			fmt.Printf("Array type: %T\n", bookings)
+			fmt.Printf("Array Length: %v\n", len(bookings))
+			fmt.Printf("Thank you %v %v for booking %v tickets. You will receive a confirmation email at %v\n", firstName, lastName, userTickets, email)
+		
+			fmt.Printf("%v tickets remaining for %v\n", remainingTickets, conferenceName)
 
-		firstNames := []string{}
+			firstNames := []string{}
 
-		//the blank identifier is a space holder for the index, since we are not using hte index within the loop
-		for _, booking := range bookings {
-			//fields key word from the string package
-			var names = strings.Fields(booking)
-			firstNames = append(firstNames, names[0])
+			//the blank identifier is a space holder for the index, since we are not using hte index within the loop
+			for _, booking := range bookings {
+				//fields key word from the string package that we import above
+
+				var names = strings.Fields(booking)
+				firstNames = append(firstNames, names[0])
+			}
+			fmt.Printf("The first names of bookings are: %v\n", firstNames)
+
+			//using a conditional to see if tickets have run out
+			//can save a bool into a variable, haven't done this in other languages before
+
+			var noTicketsRemaining bool = remainingTickets == 0
+			if noTicketsRemaining {
+
+				fmt.Println("Our conference is booked out please come back next year")
+				break 
+			}
+		} else {
+			fmt.Printf("we only have %v tickets remaining so you can't book %v tickets\n", remainingTickets, userTickets)
+			//key word continue says to keep going with the rest of hte program rather than exiting
 		}
-		fmt.Printf("The first names of bookings are: %v\n", firstNames)
 	}
 	
 }
